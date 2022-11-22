@@ -26,7 +26,8 @@ input {
   height: 40px !important;
 }
 
-input:focus {
+input:focus,
+.ant-picker:focus {
   outline: none !important;
   box-shadow: none !important;
   border: 1px solid rgba(128, 128, 128) !important;
@@ -38,6 +39,16 @@ label {
 .ant-form-item {
   margin: 10px 0 !important;
 }
+
+.ant-picker-input input {
+  border: none !important;
+}
+.ant-picker {
+  border-radius: 0 !important;
+  border: 1px solid rgba(128, 128, 128, 0.521) !important;
+  height: 40px !important;
+}
+
 /* Common Styling */
 .spinner-parent {
   display: flex;
@@ -61,7 +72,13 @@ label {
   border-radius: 0 !important;
 }
 .card-title {
-  font-size: 1.5rem;
+  font-size: 22px;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.568);
+}
+.page-title {
+  font-size: 25px;
+  color: rgb(0, 0, 0);
   font-weight: bold;
 }
 
@@ -76,6 +93,10 @@ label {
   width: 100% !important;
   color: white;
   border-radius: 0;
+}
+
+.primary-button-aligned {
+  width: max-content !important;
 }
 
 .anchor {

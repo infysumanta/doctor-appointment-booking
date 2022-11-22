@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import PublicRoutes from "./components/PublicRoutes";
+import ApplyDoctor from "./pages/ApplyDoctor";
 const App = () => {
   const { loading } = useSelector((state) => state.alerts);
 
@@ -41,6 +42,14 @@ const App = () => {
           element={
             <ProtectedRoutes>
               <Home />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/apply-doctor"
+          element={
+            <ProtectedRoutes>
+              <ApplyDoctor />
             </ProtectedRoutes>
           }
         />
