@@ -3,11 +3,9 @@ import { Button, Form, Input } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../redux/alertsSlice";
 const Login = () => {
-  // const { loading } = useSelector((state) => state.alerts);
-  // console.log(loading);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onFinish = async (values) => {
