@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("./../models/userModel");
-
+const authMiddleware = require("./../middleware/authMiddleware");
 router.post("/register", async (req, res) => {
   try {
     const userExists = await User.findOne({ email: req.body.email });
@@ -47,15 +47,38 @@ router.post("/login", async (req, res) => {
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
         expiresIn: "1d",
       });
-      return res
-        .status(200)
-        .send({ message: "Login successful", success: true, data: token });
+      return res.status(200).send({
+        message: "Login successful",
+        success: true,
+        data: token,
+        user,
+      });
     }
   } catch (error) {
     console.log(error);
     return res
       .status(200)
       .send({ message: "Error logging in", success: false, error });
+  }
+});
+
+router.post("/get-user-info-by-id", authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    if (!user) {
+      return res
+        .status(200)
+        .send({ message: "User does not exist", success: false });
+    } else {
+      res.status(200).send({
+        data: { name: user.name, email: user.email, userid: user._id },
+        success: true,
+      });
+    }
+  } catch (error) {
+    res
+      .status(200)
+      .send({ message: "Error Getting user info", success: false });
   }
 });
 
