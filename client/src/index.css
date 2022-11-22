@@ -39,6 +39,23 @@ label {
   margin: 10px 0 !important;
 }
 /* Common Styling */
+.spinner-parent {
+  display: flex;
+  justify-content: center;
+  align-items: center !important;
+  background: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 9999;
+}
+.spinner-border {
+  width: 5rem;
+  height: 5rem;
+  color: white !important;
+}
 .card {
   box-shadow: 0 0 2px grey;
   border-radius: 0 !important;
