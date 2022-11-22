@@ -71,7 +71,15 @@ router.post("/get-user-info-by-id", authMiddleware, async (req, res) => {
         .send({ message: "User does not exist", success: false });
     } else {
       res.status(200).send({
-        data: { name: user.name, email: user.email, userid: user._id },
+        data: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          isAdmin: user.isAdmin,
+          seenNotification: user.seenNotification,
+          isDoctor: user.isDoctor,
+          unseenNotification: user.unseenNotification,
+        },
         success: true,
       });
     }

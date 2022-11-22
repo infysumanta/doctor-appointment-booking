@@ -25,12 +25,13 @@ const ProtectedRoutes = (props) => {
       dispatch(hideLoading());
       if (response.data.success) {
         dispatch(setUser(response.data.data));
-        console.log(user);
       } else {
+        localStorage.clear();
         navigate("/login");
       }
     } catch (error) {
       dispatch(hideLoading());
+      localStorage.clear();
       navigate("/login");
     }
   };

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import "./../layout.css";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 const Layout = ({ children }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
   const [collapsed, setCollapsed] = useState(false);
 
@@ -28,27 +29,43 @@ const Layout = ({ children }) => {
       path: "/profile",
       icon: "ri-user-line",
     },
+  ];
+
+  const adminMenu = [
     {
-      name: "Logout",
-      path: "/logout",
-      icon: "ri-login-box-line",
+      name: "Home",
+      path: "/",
+      icon: "ri-home-line",
+    },
+    {
+      name: "Users",
+      path: "/users",
+      icon: "ri-user-line",
+    },
+    {
+      name: "Doctors",
+      path: "/doctors",
+      icon: "ri-user-star-line",
+    },
+    {
+      name: "Profile",
+      path: "/profile",
+      icon: "ri-user-line",
     },
   ];
 
-  const menuToBeRendered = userMenu;
+  const menuToBeRendered = user?.isAdmin ? adminMenu : userMenu;
 
   return (
     <div className="main">
       <div className="d-flex layout">
         <div className="sidebar">
           <div className="sidebar-header">
-            <h1>SH</h1>
+            <h1 className="logo">SH</h1>
           </div>
           <div className="menu">
             {menuToBeRendered.map((menu, index) => {
               const isActive = location.pathname === menu.path;
-
-              console.log(location.pathname, menu.path);
               return (
                 <div
                   key={index}
@@ -61,6 +78,18 @@ const Layout = ({ children }) => {
                 </div>
               );
             })}
+
+            <div
+              className={`d-flex menu-item`}
+              onClick={(e) => {
+                e.preventDefault();
+                localStorage.clear();
+                navigate("/login");
+              }}
+            >
+              <i className="ri-login-box-line"></i>
+              <a href="">Logout</a>
+            </div>
           </div>
         </div>
         <div className="content">
