@@ -92,7 +92,7 @@ router.post("/get-user-info-by-id", authMiddleware, async (req, res) => {
   }
 });
 
-router.post("/apply-doctor-account", async (req, res) => {
+router.post("/apply-doctor-account", authMiddleware, async (req, res) => {
   try {
     const newDoctor = new Doctor({ ...req.body, status: "pending" });
     await newDoctor.save();
@@ -111,6 +111,52 @@ router.post("/apply-doctor-account", async (req, res) => {
     return res
       .status(200)
       .send({ message: "Doctor Account Applied Successfully", success: true });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .send({ message: "Error Applying doctor Account !!", success: false });
+  }
+});
+
+router.post(
+  "/mark-all-notification-as-seen",
+  authMiddleware,
+  async (req, res) => {
+    try {
+      const user = await User.findById(req.userId);
+      const unseenNotification = await user.unseenNotification;
+      user.seenNotification.push(...unseenNotification);
+      user.unseenNotification = [];
+      const updatedUser = await User.findByIdAndUpdate(user._id, user);
+      updatedUser.password = undefined;
+      return res.status(200).send({
+        message: "All Notification marked as Seen",
+        success: true,
+        data: updatedUser,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({
+        message: "Error Notification marked as Seen !!",
+        success: false,
+      });
+    }
+  }
+);
+
+router.post("/delete-all-notifications", authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    user.seenNotification = [];
+    // user.unseenNotification = [];
+    const updatedUser = await user.save();
+    updatedUser.password = undefined;
+    return res.status(200).send({
+      message: "All Seen Notification is Deleted",
+      success: true,
+      data: updatedUser,
+    });
   } catch (error) {
     console.log(error);
     res
